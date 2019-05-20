@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HM_1</title>
+</head>
+<body>
+    <button id='btn'>Get all data</button>
+    <h2>Data 1</h2>
+    <div id="div1"></div>
+    <h2>Data 2</h2>
+    <div id="div2"></div>
+    <h2>Data 3</h2>
+    <div id="div3"></div>
+</body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.5.1/rxjs.umd.js"></script>
+    <script>
+    'use strict'
+
+    const Rx = window.rxjs;
+    const operators = Rx.operators;
+    const btn = document.getElementById('btn');
+    const div1 = document.getElementById('div1');
+    const div2 = document.getElementById('div2');
+    const div3 = document.getElementById('div3');
+
+
+    const pb = Rx.ajax.ajax('https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5').pipe(
+            operators.map(data => data.response)
+        )
+
+    const users = Rx.ajax.ajax('https://jsonplaceholder.typicode.com/users').pipe(
+        operators.map(data => data.response)
+    )
+
+    const repos = Rx.ajax.ajax('https://api.github.com/users/juliasleeps/repos').pipe(
+        operators.map(data => data.response)
+    )
+
+    const observableForAll = Rx.forkJoin([
+        pb,
+        users,
+        repos
+    ]);
+  
+    btn.addEventListener('click', () => {
+        while(div1.hasChildNodes()){
+            div1.removeChild(div1.firstChild);        
+        } 
+        while(div2.hasChildNodes()){      
+            div2.removeChild(div2.firstChild);
+        } 
+        while(div3.hasChildNodes()){
+            div3.removeChild(div3.firstChild);
+        } 
+
+        observableForAll.subscribe({
+            next: data => {
+                console.log(data);
+                data[0].forEach(element => {
+                    let p = document.createElement('p');
+                    p.innerHTML = element.ccy;
+                    div1.append(p);
+                });
+
+                data[1].forEach(user => {
+                    let p = document.createElement('p');
+                    p.innerHTML = user.name;
+                    div2.append(p)
+                })
+
+                data[2].forEach(repo => {
+                    let p = document.createElement('p');
+                    p.innerHTML = repo.name;
+                    div3.append(p)
+                })
+            },
+            error: (res) => console.log(res.status, res.message)
+        })
+    })
+    </script>
+</html>

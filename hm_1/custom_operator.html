@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HM_1</title>
+</head>
+<body>
+
+</body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.5.1/rxjs.umd.js"></script>
+    <script>
+    'use strict'
+    const Rx = window.rxjs;
+    const operators = Rx.operators;
+    const log = (val) => document.write(val);
+    const onlyNumber = () => operators.filter(x => typeof x == 'number');
+    const onlyText = () => operators.filter(x => typeof x == 'string');
+
+    const obs = Rx.from([1, 'text', 2, 'text2',3, 4])
+
+    obs.pipe(onlyNumber())
+        .subscribe(log);
+
+    </script>
+</html>

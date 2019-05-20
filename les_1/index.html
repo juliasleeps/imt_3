@@ -1,0 +1,90 @@
+<h1>Hello World</h1>
+
+<button id='btn'>Click</button>
+<div id="div1"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.5.1/rxjs.umd.js"></script>
+<script>
+    'use strict'
+
+    const div1 = document.getElementById('div1');
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5');
+    xhr.send();
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState != 4) return;
+        if (xhr.status != 200) {
+            alert(xhr.status + ': ' + xhr.statusText); 
+        } else {
+            console.log(xhr.status);    
+            console.log(xhr.statusText);    
+            console.log(xhr.responseText);
+            div1.append(xhr.responseText);
+        }
+    }
+
+
+    let Rx = window.rxjs;
+    let operators = Rx.operators;
+
+
+    let btn = document.getElementById('btn');
+
+    let btnEvent = Rx.fromEvent(btn, 'click').pipe(
+        operators.map((event) => {
+            return event.target;
+        }),
+        operators.map((taget) => {
+            return event.target.innerText;
+        }),
+        operators.filter((text) => {
+            return text === 'Click';
+        })
+    )
+    
+    
+    btnEvent.subscribe((event) => console.log(event));
+
+    let subj = new Rx.BehaviorSubject('gf');
+    // let subj = new Rx.ReplaySubject(2);
+    // subj.next(1);
+    // subj.next(2);
+    // subj.next(3);
+    subj.subscribe((data) => {
+        console.log(data);
+    })  
+    subj.next(5);
+    subj.next(6);
+    subj.next(7);
+    
+    // const subject = new Rx.AsyncSubject();
+    //   subject.next(1);
+    // subject.next(2);
+    // subject.subscribe(x => console.log(x));
+  
+    // subject.complete(); // в консоли: 2
+    
+
+    // let myObservable = new Rx.Observable((observer) => {
+    //     setInterval(() =>{
+    //         observer.next(123);
+    //     }, 1000);
+    //     setInterval(() => {
+    //         observer.complete();
+    //     }, 5000)
+    // });
+
+    // myObservable.subscribe(
+    //     (sdfsgsdgsdgds) => {
+    //         console.log(sdfsgsdgsdgds);
+    //     }, (error) => {
+    //         console.log(error);
+    //     }, (complete) => {
+    //         console.log(complete);
+    //     }  
+    // )
+
+
+
+</script>
