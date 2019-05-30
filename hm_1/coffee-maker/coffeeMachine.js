@@ -55,8 +55,6 @@ var CoffeeDrink = /** @class */ (function () {
 }());
 var Water = /** @class */ (function () {
     function Water(waterCapacity, actualWaterVolume) {
-        if (waterCapacity === void 0) { waterCapacity = 300; }
-        if (actualWaterVolume === void 0) { actualWaterVolume = 300; }
         this.waterCapacity = waterCapacity;
         this.actualWaterVolume = actualWaterVolume;
     }
@@ -73,8 +71,6 @@ var Water = /** @class */ (function () {
 }());
 var Milk = /** @class */ (function () {
     function Milk(milkCapacity, actualMilkVolume) {
-        if (milkCapacity === void 0) { milkCapacity = 500; }
-        if (actualMilkVolume === void 0) { actualMilkVolume = 500; }
         this.milkCapacity = milkCapacity;
         this.actualMilkVolume = actualMilkVolume;
     }
@@ -91,8 +87,6 @@ var Milk = /** @class */ (function () {
 }());
 var CoffeeBeans = /** @class */ (function () {
     function CoffeeBeans(beansCapacity, actualBeansVolume) {
-        if (beansCapacity === void 0) { beansCapacity = 500; }
-        if (actualBeansVolume === void 0) { actualBeansVolume = 500; }
         this.beansCapacity = beansCapacity;
         this.actualBeansVolume = actualBeansVolume;
     }
@@ -109,30 +103,23 @@ var CoffeeBeans = /** @class */ (function () {
 }());
 var CoffeeMaker = /** @class */ (function () {
     function CoffeeMaker(water, coffeeBeans, coffeeDrink, milk) {
-        if (water === void 0) { water = new Water(); }
-        if (coffeeBeans === void 0) { coffeeBeans = new CoffeeBeans(); }
-        if (coffeeDrink === void 0) { coffeeDrink = new CoffeeDrink(); }
-        if (milk === void 0) { milk = new Milk(); }
         this.water = water;
         this.coffeeBeans = coffeeBeans;
         this.coffeeDrink = coffeeDrink;
         this.milk = milk;
     }
     CoffeeMaker.prototype.makeCoffee = function (drink) {
-        console.log(this.water.checkActualWaterVolume());
-        console.log(this.coffeeBeans.checkActualBeansVolume());
-        console.log(this.milk.checkActualMilkVolume());
         if (this.water.checkActualWaterVolume() < drink.waterNeeded) {
-            console.log("There is not enoght water");
+            console.log("There is not enought water");
             return;
         }
         if (this.coffeeBeans.checkActualBeansVolume() < drink.beansNeeded) {
-            console.log("There is not enoght coffee beans");
+            console.log("There is not enought coffee beans");
             return;
         }
         if (drink.milkNeeded) {
             if (this.milk.checkActualMilkVolume() < drink.milkNeeded) {
-                console.log("There is not enoght milk");
+                console.log("There is not enought milk");
                 return;
             }
         }
@@ -157,7 +144,7 @@ var CoffeeMaker = /** @class */ (function () {
     };
     return CoffeeMaker;
 }());
-var myCoffeeMaker = new CoffeeMaker();
+var myCoffeeMaker = new CoffeeMaker(new Water(1000, 400), new CoffeeBeans(500, 500), new CoffeeDrink(), new Milk(500, 500));
 myCoffeeMaker.makeAmericano();
 myCoffeeMaker.makeEspresso();
 myCoffeeMaker.makeCappuccino();

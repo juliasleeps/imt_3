@@ -44,7 +44,7 @@ class CoffeeDrink {
 }
 
 class Water {
-    constructor(private waterCapacity: number = 300, private actualWaterVolume: number = 300){
+    constructor(private waterCapacity: number, private actualWaterVolume: number){
     }
 
     decreaseActualWaterVolume(value: number){
@@ -61,7 +61,7 @@ class Water {
 }
 
 class Milk {
-    constructor(private milkCapacity: number = 500, private actualMilkVolume: number = 500){
+    constructor(private milkCapacity: number, private actualMilkVolume: number){
     }
 
     decreaseActualMilkVolume(value: number){
@@ -78,7 +78,7 @@ class Milk {
 }
 
 class CoffeeBeans {
-    constructor(private beansCapacity: number = 500, private actualBeansVolume: number = 500){
+    constructor(private beansCapacity: number, private actualBeansVolume: number){
     }
 
     decreaseActualBeansVolume(value: number){
@@ -97,25 +97,25 @@ class CoffeeBeans {
 class CoffeeMaker {
 
     constructor(
-        private water: Water = new Water(),
-        private coffeeBeans: CoffeeBeans = new CoffeeBeans(),
-        private coffeeDrink: CoffeeDrink = new CoffeeDrink(),
-        private milk: Milk = new Milk()
+        private water: Water,
+        private coffeeBeans: CoffeeBeans,
+        private coffeeDrink: CoffeeDrink,
+        private milk: Milk
         ){
     }
 
     private makeCoffee(drink: CoffeeType){        
         if (this.water.checkActualWaterVolume() < drink.waterNeeded){
-            console.log(`There is not enoght water`);
+            console.log(`There is not enought water`);
             return
         }
         if (this.coffeeBeans.checkActualBeansVolume() < drink.beansNeeded){
-            console.log(`There is not enoght coffee beans`);
+            console.log(`There is not enought coffee beans`);
             return
         }
         if (drink.milkNeeded){
             if (this.milk.checkActualMilkVolume() < drink.milkNeeded){
-                console.log(`There is not enoght milk`);
+                console.log(`There is not enought milk`);
                 return
             }
         }
@@ -141,7 +141,7 @@ class CoffeeMaker {
     }
 }
 
-let myCoffeeMaker = new CoffeeMaker();
+let myCoffeeMaker = new CoffeeMaker(new Water(1000, 400), new CoffeeBeans(500, 500), new CoffeeDrink(), new Milk(500, 500));
 myCoffeeMaker.makeAmericano();
 myCoffeeMaker.makeEspresso();
 myCoffeeMaker.makeCappuccino();
